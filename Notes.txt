@@ -1,0 +1,115 @@
+Notes:
+
+layer1 = Layer_Dense(4, 5)
+#param1 = size of inputs/size of list at index 0
+#param2 = number of neurons
+layer2 = Layer_Dense(5, 5) # If we want layer1 to pass to layer2, the input size has to match input 2's output size of 5
+
+
+layer1.forward(X)
+print("============ Layer 1 ============")
+print(layer1.output, "\n")
+
+
+layer2.forward(layer1.output)
+print("============ Layer 2 ============")
+print(layer2.output)
+
+==========================================
+P.6 - Softmax Activation
+
+The softmax activation function is a function that is applied to the outer, or last, layer in a classifier NN.
+It helps to optimize data in a more managable and manipulable way.
+
+Why another activation function?
+Because with the Rectified linear, if I get any input values that are negative, 
+they are immediately converted to 0. Whether it's -2 or -500000000.
+
+This can be problematic for backpropagation as it has no idea of knowing what the previous value was.
+The softmax activation function works by exponentiating each value, negative or nonnegative, and turning it
+into something more manipulable.
+
+Snippet from softmax.py:
+# Normalize the outputs
+# A single output neuron's value divided by the sum of all outputs in the layer
+# We exponentiate the outputs first to convert negatives to positives and make them account for the exponential growth
+
+norm_values = exp_values / np.sum(exp_values)
+print(norm_values)
+print(sum(norm_values))  # Should be 1.0
+
+# Combination of exponentiation and normalization is the softmax activation function
+
+
+Now, when working with NN's inputs will be received as batches, or as a 2-d matrix.
+Because of this, we need to change up the softmax and normalization process a bit to accomodate.
+
+print(np.sum(layer_outputs))
+
+This code snippet is problematic for a batch of inputs, as it will add up every single number in the matrix and
+return the sum as 1 singular number, not as an array of sums.
+
+To fix this, introduce the axis parameter:
+
+print(np.sum(layer_outputs, axis=0))
+
+By default, the axis parameter is set to None, but when axis is 0, it adds all the digits up by column. Here, we want
+to add them up by row, so we set axis equal to 1, as shown below.
+
+print(np.sum(layer_outputs, axis=1))
+
+This gives us the result:
+[8.395   7.29   2.487]
+
+However, this is still an issue, this is a singular 1-dimensional array with 3 elements, if we use this to normalize our
+exponentiated values, it won't line up properly and we'll end up getting incorrect values.
+
+To fix this, we introduce another parameter called "keepdims", short for "keep dimensions:
+
+print(np.sum(layer_outputs, axis=1, keepdims=True))
+
+This gives us the result:
+[[8.395]
+ [7.29 ]
+ [2.487]]
+
+This is the output we want, a 2-dimensional array of values that are simply the sum of the inputs from that layer.
+
+BUT. Once again, there is an issue.
+When using exponentiation, values grow extremely quick, e^10 vs e^100 is a very large difference. This makes it more
+susceptible to overflow errors.
+One way to combat this is to find the maximum value among the inputs, and subtract each input by the max. This makes
+the maximum value always equal to 0 and every other value some negative number. This limits our possible range of inputs from 0 to infinity
+to 0 to 1.
+
+Ex:
+Batch1 = [9, 3, 5, 1]
+         [9-9, 3-9, 5-9, 1-9]
+New Batch1 = [0, -6, -4, -8]
+
+The exponentiation of these values is significantly smaller than that of the previous.
+
+=================================================================================================================
+P.7 - Calculating Loss
+
+Categorical Cross-Entropy
+
+Sample Loss Value = -log(Predicted value of ith sample in set, target label index)
+
+One-hot encoding:
+If you have a vector(array) that is n classes long, and is filled with zeros, except at the index of the target class in which it is a 1
+
+Ex:
+Classes: 3
+Label: 0
+One-hot: [1, 0, 0]
+
+Classes: 4
+Label: 2
+One-hot: [0, 0, 1, 0]
+
+Classes: 3
+Label: 0
+One-hot: [1, 0, 0]
+Prediction: [0.7, 0.1, 0.2]
+(1 * log(0.7)) + (0 * log(0.1)) + 0 * log(0.2)
