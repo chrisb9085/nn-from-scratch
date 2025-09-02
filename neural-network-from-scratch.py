@@ -46,7 +46,7 @@ X, y = spiral_data(samples = 100, classes = 3)
 dense1 = Layer_Dense(2, 3)
 activation1 = Activation_ReLU()
 
-dense2 = Layer_Dense(3, 3)
+dense2 = Layer_Dense(3, 3) # 2nd layer, 3 inputs (from 1st layer), 3 outputs (3 classes)
 activation2 = Activation_Softmax()
 
 # Perform a forward pass of our training data through this layer

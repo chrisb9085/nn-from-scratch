@@ -113,3 +113,8 @@ Label: 0
 One-hot: [1, 0, 0]
 Prediction: [0.7, 0.1, 0.2]
 (1 * log(0.7)) + (0 * log(0.1)) + 0 * log(0.2)
+
+=============================================
+P.8 Introducing Optimzation
+
+In out current neural network, the first layer(dense1) has weights(w1) and biases(b1). As does our 2nd layer(dense2), w2,b2
