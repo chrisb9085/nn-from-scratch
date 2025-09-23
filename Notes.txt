@@ -115,6 +115,41 @@ Prediction: [0.7, 0.1, 0.2]
 (1 * log(0.7)) + (0 * log(0.1)) + 0 * log(0.2)
 
 =============================================
-P.8 Introducing Optimzation
+P.8 Loss Implementation
 
-In out current neural network, the first layer(dense1) has weights(w1) and biases(b1). As does our 2nd layer(dense2), w2,b2
+In our current neural network, the first layer(dense1) has weights(w1) and biases(b1). As does our 2nd layer(dense2), w2,b2
+
+============================================================================
+P.9 Loss Optimzation 
+
+Currently our NN looks like this:
+
+1 input layer with 2 nodes, our first hidden layer that receives the ReLU activation function with 3 nodes, our second hidden layer that receives
+the softmax activation function with 3 nodes, and our output.
+
+Our input layer has 2 inputs, x1 and x2. Our next layer has 3 nodes, each node receives both inputs, and each input is assigned a weight. Each node is also assigned a bias.
+So, our 2nd layer has 2 weights across 3 nodes, 6 weights(w1), and 3 biases(b1). 
+
+Our 3rd layer receives the previous layer's output as its input. Since we had 3 nodes in the previous layer, we have 3 outputs which are now our 3 inputs.
+This layer also has 3 nodes, and each node receives all 3 inputs, assigning each input a unique weight, and each node, a bias.
+So, our 3rd layer has 3 weights across 3 nodes, 9 weights(w2), and 3 biases(b2).
+
+Adding the total number of numerical values, 6 weights, 3 biases from our 2nd layer, and 9 weights, 3 biases from our 3rd layer, we have
+a total of 21 numerical values which are not yet "optimized".
+
+What do I mean by optimization?
+Currently our values are being randomly initialized, they have no real structure, and we don't know which direction to go to increase the accuracy of our neural network.
+
+How do we adjust the weights and biases to decrease the loss?
+
+We have some methods:
+1. Random selection (extremely inefficient)
+  - Pick weights and biases randomly, calculate the loss.
+  - Repeat hundreds of times until you find a copmination of weights and biases that minimize loss.
+  - (Imagine trying to throw a bunch of darts at a dartboard and see how close you can get to the bullseye)
+2. Randomly adjust (works a lot better, but fails in complex scenarios)
+  - If loss decreases for some weights and biases, the next value chosen should be close to the current selections
+  - If loss increases, don't update weights and biases
+  - (Imagine adjusting the water temperature for your shower, adjusting the knob slowly in the right direction)
+3. Partial Derivatives (Extremely efficient, works along the slope of the loss function)
+  - 
