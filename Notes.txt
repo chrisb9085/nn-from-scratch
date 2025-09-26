@@ -151,5 +151,24 @@ We have some methods:
   - If loss decreases for some weights and biases, the next value chosen should be close to the current selections
   - If loss increases, don't update weights and biases
   - (Imagine adjusting the water temperature for your shower, adjusting the knob slowly in the right direction)
+P.10 - Derivatives, Partial Derivatives, and Gradients
 3. Partial Derivatives (Extremely efficient, works along the slope of the loss function)
-  - 
+  - What is a derivative?
+    - A derivative at any point on a function tells you the slope at that point.
+    - It also tells you how fast the original function is changing
+    - In terms of neural networks, it tells us how a change in weights or inputs may affect output(or loss)
+  - What is a partial derivative?
+    - In neural networks, our function have many inputs, regular derivatives only use 1 input, so it's difficult to tell which input the derivative is with respect to
+    - Using par. derivatives we can tell what values are with respect to in the function
+    - It also allows us to know specifically what is the impact of a specific input or weight on our output.
+    - (When calculating partial derivatives, treat all other variables as constants. The derivative of a constant is 0.)
+    - (All nodes are treated as parameters)
+  - What is a gradient?
+    - Given a function of 3 variables:
+        - f(x,y,z) = [Insert some multivariable function]
+        - f'(X,y,z) = [Insert derivative of said function]
+        - The gradient is the vector of all possible partial derivatives
+            -i.e: f'(X,y,z), f'(x,Y,z), f'(x,y,Z)
+        - The gradient will return the direction of the steepest ASCENT, where the function increases the most.
+        - This is important because we want the direction of steepest DESCENT, where the function decreases the most.
+        - By knowing the gradient we are able to move in the direction of the negative gradient.
