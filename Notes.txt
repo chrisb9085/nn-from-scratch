@@ -172,3 +172,46 @@ P.10 - Derivatives, Partial Derivatives, and Gradients
         - The gradient will return the direction of the steepest ASCENT, where the function increases the most.
         - This is important because we want the direction of steepest DESCENT, where the function decreases the most.
         - By knowing the gradient we are able to move in the direction of the negative gradient.
+
+P.12 - Backpropagation on a single neuron
+"The engine of neural networks"
+
+How can I optimize weights and biases of the neuron so that our output is as close to 0(or desired value) as opposible?
+ - This is where the gradient descent comes into play:
+  - Look at our loss function, move in the direction of the steepest descent, negative gradient, negative slope of the tangent line at that point
+We need to do this for all of our parameters(weights).
+Derivative of the loss function with respect to w0, w1, and w2.
+
+Once again, here is what a forward pass for one node looks like step-by-step:
+1. Inputs(x), weights(w), biases(b).
+It takes input x0, x1, x2, with their weights, plus a bias so.
+x0w0, x1w1, x2w2, b. 
+2. Summation
+x0w0 + x1w1 + x2w2 + b
+3. ReLU
+Passes through the ReLU activation function, anything <=0 is set to 0.
+4. Passes through the square loss function.
+Truth value is 0, so output of relu - 0 quantity squared
+
+Now, the loss isn't directly dependent on our parameters, it goes through many stepsto get to loss.
+So, we invoke the chain rule, to capture the impact of these parameters on the loss function
+
+First, let's start with w0, take the derivative with respect to w0.
+Let's write this in mathematical terms:
+Loss = (ReLU(sum(mul(x0,w0),mul(x1,w1),mul(x2,w2),b)))^2
+To get to w0, we have to take the derivatives of our functions in order.
+Derivative of loss with respect to ReLU(1), derivative of ReLU with respect to sum(2), derivative of sum with respect to mul(3), and derivative of mul with respect to w0(4) 
+Multiply all these together, and that is the gradient of loss with respect to w0.
+Think of it like jerk -> acceleration -> velocity -> position
+
+After finding the derivatives for w0,w1,w2,b, we can implement the gradient descent and modify our weights and biases
+
+w0 = w0 - 0.001 * w0_gradient
+w1 = w1 - 0.001 * w1_gradient
+w2 = w2 - 0.001 * w2_gradient
+b = b - 0.001 * b_gradient
+-0.001 is called our "step size", it controls how much we change our values by.
+
+Testing again, if we run these new values through our loss function, our loss function will decrease. In order to keep going, we do multiple iterations of this.
+
+P.13 - Backpropagation through an entire layer
