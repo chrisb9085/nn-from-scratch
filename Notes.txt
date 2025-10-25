@@ -215,3 +215,23 @@ b = b - 0.001 * b_gradient
 Testing again, if we run these new values through our loss function, our loss function will decrease. In order to keep going, we do multiple iterations of this.
 
 P.13 - Backpropagation through an entire layer
+
+Let's establish our variables:
+We have w11,w21,w31, where the leftmost digit is the layer number and the rightmost digit is the weight number.
+Our input layer has 4 nodes, feeding into 3 hidden layer nodes. We have 4 inputs, 3 weights, 12 total weights(3 each input), and 3 biases - 15 optimizable paramaters.
+
+z1 is the denotion of the dot product of the first input: input*weight + bias
+z1 = w11*x1 + w12*x2 + x13*x3 + x14*x4 + b1
+z2 = w21*x1 + w22* x2 + w23*x3 + x24*x4 + b1
+z3 = w31*x1...
+
+a1 is z1 after it goes through the ReLU actisvation function
+a2, a3 ^
+Loss = y^2 = (a1+a2+a3)^2
+** There is an invisible "-0" because 0 is our true value. - 0 doesn't change any value so we can omit it
+
+Remember - the whole idea is to find the gradient of the loss with respect to our weights
+Since we cannot find it directly we need to find it indirectly, step-by-step
+We need to find the gradient of loss with respect to y, then with respect to a1, then with respect to z1, then with respect to w11.
+We multiply all these derivatives together to get the loss gradient with respect to w11
+We repeat this process a total of 15 times for our 15 total parameters
